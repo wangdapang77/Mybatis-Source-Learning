@@ -45,6 +45,26 @@ logging     -》 把日志抽象成Log接口，该接口有7种实现：Apache C
 
 mapping     -》 Mybatis配置文件-映射文件相关的类
 
+parsing     -》 解析配置文件的核心类和接口
+
+plugin      -》 插件相关接口和类
+
+reflection  -》 反射相关类
+
+scripting   -》 脚本解析相关类
+
+session     -》 会话相关类，提供对外核心接口
+
+transaction -》 Transaction接口是对事务的抽象，有2种实现方式：1.JdbcTransaction,jdbc:手动管理
+                2.ManagedTransaction,managed:container manage the full lifecycle of the transaction
+                TransactionFactory接口定义了生成Transaction接口(实现类)的若干方法。
+                该接口有2种实现方式：
+                1.JdbcTransactionFactory,Creates {@link JdbcTransaction} instances。
+                2.ManagedTransactionFactory，Creates {@link ManagedTransaction} instances。
+                本包主要依赖了Mybatis session包的TransactionIsolationLevel和exceptions包的
+                PersistenceException。Mybatis的其它包大量引用了本包中的类和接口，**即严重依赖于本包**。
+
+type        -》 类型处理，包含了类型处理器接口TypeHandler，父类BaseTypeHandler,以及若干个子类
 ```
 
 ### 技术交流
