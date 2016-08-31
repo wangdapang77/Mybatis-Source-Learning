@@ -5,7 +5,6 @@
 
 关于Mybatis的源码学习
 
-```
 annotations -》 本包定义了Mybatis框架中的24个注解，本包只被builder.annotation包的
                 MapperAnnotationBuilder类引用
 
@@ -65,7 +64,6 @@ transaction -》 Transaction接口是对事务的抽象，有2种实现方式：
                 PersistenceException。Mybatis的其它包大量引用了本包中的类和接口，**即严重依赖于本包**。
 
 type        -》 类型处理，包含了类型处理器接口TypeHandler，父类BaseTypeHandler,以及若干个子类
-```
 
 ### 技术交流
 
