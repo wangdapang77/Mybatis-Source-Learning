@@ -17,6 +17,9 @@ package org.apache.ibatis.exceptions;
 
 /**
  * @author Clinton Begin
+ * 结果过多异常
+ * 继承PersistenceException, DefaultSqlSession中selectOne（预想查找一条记录），结果得到的记录大于1条，抛出此异常
+ * （平时开发在查找记录时，想得到一个model，结果是list记录，会报此异常）
  */
 public class TooManyResultsException extends PersistenceException {
 
