@@ -19,19 +19,32 @@ cache       -》 包含了Mybatis框架的缓存接口定义和实现，Perpetua
                 通过链起来达到功能增加。缓存框架按照 Key-Value方式存储，Key的生成采取规则为：
                 [hashcode:checksum:mappedStementId:offset:limit:executeSql:queryParams]
                 只引用了Mybatis的io包的Resources，不依赖于任何第三方库。Mybatis的其它包
-                大量引用了本包中的类和接口，即严重依赖于本包。
+                大量引用了本包中的类和接口，**即严重依赖于本包**
 
 cursor      -》
 
 datasource  -》 数据源相关接口和类，主要引用了Mybatis的reflection的ExceptionUtil类和
                 loggin包的Log接口和LogFactory类。Mybatis的session包的Configuration类，
-                builder.xml包的XMLConfigBuilder类引用了本包中的类和接口。
+                builder.xml包的XMLConfigBuilder类引用了本包中的类和接口
 
 exceptions  -》 Mybatis框架中的异常，只依赖于Mybatis的executor的ErrorContext，Mybatis
-                的其它包大量引用了本包中的类和接口，即严重依赖于本包。
+                的其它包大量引用了本包中的类和接口，**即严重依赖于本包**
 
 executor    -》 执行器接口和实现类及周边类和接口
-io
+
+io          -》 主要包含了资源加载和访问相关的类，只引用了Mybatis的logging包的Log接口和
+                LogFactory类，Mybatis的其它包大量引用了本包中的类和接口，**即严重依赖于本包**
+
+jdbc        -》 JDBC和SQL相关的类
+
+logging     -》 把日志抽象成Log接口，该接口有7种实现：Apache Commons Logging、
+                JDBC Logging、Java Util Logging、Log4j、No Logging、Slf4J、Stdout
+                一个接口多种实现是框架的一贯作风，主要依赖了，Mybatis的reflection包
+                的ExceptionUtil和io包的Resources，以及第三方的Log4j,Slf4j,CommonsLogging
+                Mybatis的其它包大量引用了本包中的类和接口，**即严重依赖于本包**
+
+mapping     -》 Mybatis配置文件-映射文件相关的类
+
 ```
 
 ### 技术交流
