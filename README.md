@@ -12,12 +12,12 @@ Mybatis-Source-Learning/
 │   ├── binding     - 映射绑定，mapper.xml等映射文件相关实体的抽象
 │   ├── builder     - 解析Mybatis的配置文件和映射文件，包括Xml格式和Annotation格式2种配置
 │   ├── cache       - 包含了Mybatis框架的缓存接口定义和实现，PerpetualCache直接实现了Cache接口，其它缓存类实现采用装饰模式实现
-│   ├──               采用装饰模式，一个个包装起来，形成一个链，典型的就是SynchronizedCache->LoggingCache->SerializedCache->LruCache->PerpetualCache，通过链起来达到功能增加
-│   ├──               缓存框架按照 Key-Value方式存储，Key的生成采取规则为：[hashcode:checksum:mappedStementId:offset:limit:executeSql:queryParams]
-│   ├──               只引用了Mybatis的io包的Resources，不依赖于任何第三方库。Mybatis的其它包大量引用了本包中的类和接口，即严重依赖于本包
+│   │                   采用装饰模式，一个个包装起来，形成一个链，典型的就是SynchronizedCache->LoggingCache->SerializedCache->LruCache->PerpetualCache，通过链起来达到功能增加
+│   │                   缓存框架按照 Key-Value方式存储，Key的生成采取规则为：[hashcode:checksum:mappedStementId:offset:limit:executeSql:queryParams]
+│   │                   只引用了Mybatis的io包的Resources，不依赖于任何第三方库。Mybatis的其它包大量引用了本包中的类和接口，即严重依赖于本包
 │   ├── cursor      -
 │   ├── datasource  - 数据源相关接口和类，主要引用了Mybatis的reflection的ExceptionUtil类和loggin包的Log接口和LogFactory类
-│   ├──               Mybatis的session包的Configuration类，builder.xml包的XMLConfigBuilder类引用了本包中的类和接口
+│   │                   Mybatis的session包的Configuration类，builder.xml包的XMLConfigBuilder类引用了本包中的类和接口
 │   ├── exceptions  - Mybatis框架中的异常，只依赖于Mybatis的executor的ErrorContext，Mybatis的其它包大量引用了本包中的类和接口，即严重依赖于本包
 │   ├── executor    - 执行器接口和实现类及周边类和接口
 │   ├── io
