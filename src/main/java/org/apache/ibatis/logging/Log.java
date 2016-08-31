@@ -17,6 +17,8 @@ package org.apache.ibatis.logging;
 
 /**
  * @author Clinton Begin
+ * 日志接口
+ * 和log4j类似，提供日志接口的error、debug、warn、trace
  */
 public interface Log {
 

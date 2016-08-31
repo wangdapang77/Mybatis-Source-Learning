@@ -20,13 +20,16 @@ import java.lang.reflect.Constructor;
 /**
  * @author Clinton Begin
  * @author Eduardo Macarron
+ * 日志工厂（工厂模式）
  */
 public final class LogFactory {
 
   /**
    * Marker to be used by logging implementations that support markers
    */
+  // 给支持marker功能的log使用（slf4j、log4j2）
   public static final String MARKER = "MYBATIS";
+
 
   private static Constructor<? extends Log> logConstructor;
 
@@ -69,6 +72,7 @@ public final class LogFactory {
     });
   }
 
+  // logFactory为私有的，说明不能自己new实例(单例模式)
   private LogFactory() {
     // disable construction
   }

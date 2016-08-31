@@ -19,6 +19,7 @@ import org.apache.ibatis.exceptions.PersistenceException;
 
 /**
  * @author Clinton Begin
+ * 日志异常，继承PersistenceException
  */
 public class LogException extends PersistenceException {
 
