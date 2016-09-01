@@ -94,6 +94,7 @@ type        -》 类型处理，包含了类型处理器接口TypeHandler，父�
 Mybatis内部分三个层：接口层-核心层-基础层
 
 1.基础层-logging
+-----------------
 org.apache.ibatis.logging
 org.apache.ibatis.logging.commons
 org.apache.ibatis.logging.jdbc
@@ -105,10 +106,12 @@ org.apache.ibatis.logging.slf4j
 org.apache.ibatis.logging.stdout
 
 2.基础层-IO
+-----------------
 org.apache.ibatis.io
 通过类加载器在jar包中寻找一个package下满足条件(比如某个接口的子类)的所有类
 
 3.基础层-reflection(反射)
+-------------------------
 org.apache.ibatis.reflection
 org.apache.ibatis.reflection.factory
 org.apache.ibatis.reflection.invoker
