@@ -23,6 +23,7 @@ import org.slf4j.spi.LocationAwareLogger;
 
 /**
  * @author Eduardo Macarron
+ * log具体的实现类
  */
 class Slf4jLocationAwareLoggerImpl implements Log {
   

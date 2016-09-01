@@ -15,10 +15,6 @@
  */
 package org.apache.ibatis.logging;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.Reader;
-
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.logging.commons.JakartaCommonsLoggingImpl;
 import org.apache.ibatis.logging.jdk14.Jdk14LoggingImpl;
@@ -29,6 +25,10 @@ import org.apache.ibatis.logging.slf4j.Slf4jImpl;
 import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
+
+import java.io.Reader;
+
+import static org.junit.Assert.assertEquals;
 
 public class LogFactoryTest {
 
@@ -52,7 +52,9 @@ public class LogFactoryTest {
   public void shouldUseLog4J2() {
     LogFactory.useLog4J2Logging();
     Log log = LogFactory.getLog(Object.class);
-    logSomething(log);
+    //logSomething(log);
+    System.out.println(log.getClass().getName());
+    System.out.println(Log4j2Impl.class.getName());
     assertEquals(log.getClass().getName(), Log4j2Impl.class.getName());
   }
   

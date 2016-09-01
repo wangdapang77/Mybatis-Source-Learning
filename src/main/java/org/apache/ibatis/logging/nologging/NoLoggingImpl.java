@@ -19,6 +19,7 @@ import org.apache.ibatis.logging.Log;
 
 /**
  * @author Clinton Begin
+ * 无日志，方法都是空的
  */
 public class NoLoggingImpl implements Log {
 

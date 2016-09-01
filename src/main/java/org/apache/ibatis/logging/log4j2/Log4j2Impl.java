@@ -27,12 +27,14 @@ public class Log4j2Impl implements Log {
 
   private Log log;
 
+  // 代理模式
   public Log4j2Impl(String clazz) {
     Logger logger = LogManager.getLogger(clazz);
-
     if (logger instanceof AbstractLogger) {
+      // 委托给Log4j2AbstractLoggerImpl
       log = new Log4j2AbstractLoggerImpl((AbstractLogger) logger);
     } else {
+      // 委托给Log4j2LoggerImpl
       log = new Log4j2LoggerImpl(logger);
     }
   }

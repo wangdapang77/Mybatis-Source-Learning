@@ -19,6 +19,7 @@ import org.apache.ibatis.logging.Log;
 
 /**
  * @author Clinton Begin
+ * 打印到控制台的Log
  */
 public class StdOutImpl implements Log {
 
