@@ -5,7 +5,7 @@
 
 关于Mybatis的源码学习
 
-```
+
 Mybatis内部分三个层：接口层-核心层-基础层
 
 1.基础层-logging
@@ -175,6 +175,7 @@ org.apache.ibatis.session.defaults
 
 
 
+```
 annotations -》 本包定义了Mybatis框架中的24个注解，本包只被builder.annotation包的
                 MapperAnnotationBuilder类引用
 
