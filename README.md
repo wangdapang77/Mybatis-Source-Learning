@@ -96,96 +96,166 @@ Mybatis内部分三个层：接口层-核心层-基础层
 1.基础层-logging
 -----------------
 org.apache.ibatis.logging
+
 org.apache.ibatis.logging.commons
+
 org.apache.ibatis.logging.jdbc
+
 org.apache.ibatis.logging.jdk14
+
 org.apache.ibatis.logging.log4j
+
 org.apache.ibatis.logging.log4j2
+
 org.apache.ibatis.logging.nologging
+
 org.apache.ibatis.logging.slf4j
+
 org.apache.ibatis.logging.stdout
+
 
 2.基础层-IO
 -----------------
 org.apache.ibatis.io
+
 通过类加载器在jar包中寻找一个package下满足条件(比如某个接口的子类)的所有类
+
 
 3.基础层-reflection(反射)
 -------------------------
 org.apache.ibatis.reflection
+
 org.apache.ibatis.reflection.factory
+
 org.apache.ibatis.reflection.invoker
+
 org.apache.ibatis.reflection.property
+
 org.apache.ibatis.reflection.wrapper
+
 可以参考MetaObjectTest来跟踪调试，基本上用到了reflection包下所有的类
 
+
 4.基础层-exceptions(异常)
+-------------------------
 org.apache.ibatis.exceptions
 
+
 5.基础层-type(类型处理器)
+-------------------------
 org.apache.ibatis.type
+
 实现java和jdbc中的类型之间转换
+
 源码分析可以参考http://www.cnblogs.com/sunzhenchao/archive/2013/04/09/3009431.html
 
+
 6.核心层-builder(构建)
+-------------------------
 org.apache.ibatis.builder
+
 org.apache.ibatis.builder.annotation
+
 org.apache.ibatis.builder.xml
 
+
 7.核心层-mapping(映射)
+-------------------------
 org.apache.ibatis.mapping
 
+
 8.核心层-scripting(脚本)
+-------------------------
 org.apache.ibatis.scripting
+
 org.apache.ibatis.scripting.defaults
+
 org.apache.ibatis.scripting.xmltags
 
+
 9.核心层-parsing(解析)
+-------------------------
 org.apache.ibatis.parsing
+
 xml解析，${} 格式的字符串解析
+
 源码分析可以参考http://www.cnblogs.com/sunzhenchao/p/3161093.html
 
+
 10.核心层-cache(缓存)
+-------------------------
 org.apache.ibatis.cache
+
 org.apache.ibatis.cache.decorators
+
 org.apache.ibatis.cache.impl
 
+
 11.核心层-executor(执行器)
+-------------------------
 org.apache.ibatis.executor
+
 org.apache.ibatis.executor.keygen
+
 org.apache.ibatis.executor.loader
+
 org.apache.ibatis.executor.loader.cglib
+
 org.apache.ibatis.executor.loader.javassist
+
 org.apache.ibatis.executor.parameter
+
 org.apache.ibatis.executor.result
+
 org.apache.ibatis.executor.resultset
+
 org.apache.ibatis.executor.statement
 
+
 12.核心层-plugIn(插件)
+-------------------------
 org.apache.ibatis.plugin
 
+
 13.核心层-transaction(事务)
+-------------------------
 org.apache.ibatis.transaction
+
 org.apache.ibatis.transaction.jdbc
+
 org.apache.ibatis.transaction.managed
 
+
 14.核心层-datasource(数据源)
+-------------------------
 org.apache.ibatis.datasource
+
 org.apache.ibatis.datasource.jndi
+
 org.apache.ibatis.datasource.pooled
+
 org.apache.ibatis.datasource.unpooled
 
+
 15.核心层-binging(绑定)
+-------------------------
 org.apache.ibatis.binding
 
+
 16.核心层-annonation(注解)
+-------------------------
 org.apache.ibatis.annotations
 
+
 17.核心层-jdbc(jdbc单元测试工具)
+-------------------------
 org.apache.ibatis.jdbc
 
+
 18.接口层-session(会话)
+-------------------------
 org.apache.ibatis.session
+
 org.apache.ibatis.session.defaults
 
 
