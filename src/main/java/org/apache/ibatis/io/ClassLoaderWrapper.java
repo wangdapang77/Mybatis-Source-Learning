@@ -105,7 +105,7 @@ public class ClassLoaderWrapper {
 
   /*
    * Try to get a resource from a group of classloaders
-   *
+   * 利用5个加载器找资源，找到后即返回结果
    *
    * @param resource    - the resource to get
    * @param classLoader - the classloaders to examine
@@ -204,6 +204,7 @@ public class ClassLoaderWrapper {
 
   }
 
+  // 5个类加载器
   ClassLoader[] getClassLoaders(ClassLoader classLoader) {
     return new ClassLoader[]{
         classLoader,

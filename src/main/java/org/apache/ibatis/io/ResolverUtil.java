@@ -15,14 +15,14 @@
  */
 package org.apache.ibatis.io;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
 
 /**
  * <p>ResolverUtil is used to locate classes that are available in the/a class path and meet
@@ -55,6 +55,8 @@ import org.apache.ibatis.logging.LogFactory;
  * </pre>
  *
  * @author Tim Fennell
+ * 找package下满足条件的所有类
+ *
  */
 public class ResolverUtil<T> {
   /*
@@ -212,11 +214,12 @@ public class ResolverUtil<T> {
    * @param test an instance of {@link Test} that will be used to filter classes
    * @param packageName the name of the package from which to start scanning for
    *        classes, e.g. {@code net.sourceforge.stripes}
+   * 找一个package下满足条件的所有类，被MapperRegistry,TypeAliasRegistry,TypeHanderRegistry调用
    */
   public ResolverUtil<T> find(Test test, String packageName) {
     String path = getPackagePath(packageName);
-
     try {
+      // 使用VFS深入jar里面找class
       List<String> children = VFS.getInstance().list(path);
       for (String child : children) {
         if (child.endsWith(".class")) {
@@ -226,7 +229,6 @@ public class ResolverUtil<T> {
     } catch (IOException ioe) {
       log.error("Could not read package: " + packageName, ioe);
     }
-
     return this;
   }
 
