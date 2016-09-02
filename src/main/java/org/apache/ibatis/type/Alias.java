@@ -23,6 +23,9 @@ import java.lang.annotation.Target;
 
 /**
  * @author Clinton Begin
+ * 别名：
+ * 1.xml形式
+ * 2.annotation形式
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -30,3 +33,12 @@ import java.lang.annotation.Target;
 public @interface Alias {
   String value();
 }
+
+
+/**
+ <!-- business typeAlias Strart -->
+ <typeAlias alias="SisUserRole" type="com.gzduanxun.sysmgr.model.SisUserRole"/>
+ <!-- business typeAlias end -->
+ 因为在mybatis中的sql写成了省略的部分SisUserRole，是找不到该类的。增加了typeAlias之后就不用写com.gzduanxun.sysmgr.model了。
+ <insert id="save" parameterType="SisUserRole" keyProperty="id">
+ */

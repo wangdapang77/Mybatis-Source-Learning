@@ -21,12 +21,14 @@ import java.util.Map;
 
 /**
  * @author Clinton Begin
+ * JDBC类型枚举
  */
 public enum JdbcType {
   /*
    * This is added to enable basic support for the
    * ARRAY data type - but a custom type handler is still required
    */
+  // 包装java.sql.Types
   ARRAY(Types.ARRAY),
   BIT(Types.BIT),
   TINYINT(Types.TINYINT),
@@ -70,6 +72,7 @@ public enum JdbcType {
   public final int TYPE_CODE;
   private static Map<Integer,JdbcType> codeLookup = new HashMap<Integer,JdbcType>();
 
+  // 类加载时就把数字对应的枚举类型放入hashmap中
   static {
     for (JdbcType type : JdbcType.values()) {
       codeLookup.put(type.TYPE_CODE, type);

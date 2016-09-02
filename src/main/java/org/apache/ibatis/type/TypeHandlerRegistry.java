@@ -15,6 +15,9 @@
  */
 package org.apache.ibatis.type;
 
+import org.apache.ibatis.io.ResolverUtil;
+import org.apache.ibatis.io.Resources;
+
 import java.io.InputStream;
 import java.io.Reader;
 import java.lang.reflect.Constructor;
@@ -22,28 +25,29 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.ibatis.io.ResolverUtil;
-import org.apache.ibatis.io.Resources;
+import java.util.*;
 
 /**
  * @author Clinton Begin
+ * 类型处理注册机
  */
 public final class TypeHandlerRegistry {
 
+  // EnumMap（枚举形map）,保存mybatis内部提供的枚举jdbctype和对应的typehandler
   private final Map<JdbcType, TypeHandler<?>> JDBC_TYPE_HANDLER_MAP = new EnumMap<JdbcType, TypeHandler<?>>(JdbcType.class);
+
+  // Type：javaType的Class类型(Type是Class的接口)，value是一个Map集合（比如String，可能对应数据库的clob、char、varchar等，所以是一对多关系）
+  // 主要使用Map<Type, Map<JdbcType, TypeHandler<?>>> TYPE_HANDLER_MAP来获取TypeHandler
   private final Map<Type, Map<JdbcType, TypeHandler<?>>> TYPE_HANDLER_MAP = new HashMap<Type, Map<JdbcType, TypeHandler<?>>>();
+
+  // 处理Object类型（运行时，会尝试进行向下类型转换找到合适的TypeHandler，如果依然失败，最后选择ObjectTypeHandler）
   private final TypeHandler<Object> UNKNOWN_TYPE_HANDLER = new UnknownTypeHandler(this);
+  // 所有的TypeHandler. Key：TypeHandler的Class类型，value：TypeHandler实例（都是singleton）
   private final Map<Class<?>, TypeHandler<?>> ALL_TYPE_HANDLERS_MAP = new HashMap<Class<?>, TypeHandler<?>>();
 
   public TypeHandlerRegistry() {
+    // 构造函数里注册系统内置的类型处理器
+    // 以下是为多个类型注册到同一个handler
     register(Boolean.class, new BooleanTypeHandler());
     register(boolean.class, new BooleanTypeHandler());
     register(JdbcType.BOOLEAN, new BooleanTypeHandler());
@@ -72,6 +76,8 @@ public final class TypeHandlerRegistry {
     register(double.class, new DoubleTypeHandler());
     register(JdbcType.DOUBLE, new DoubleTypeHandler());
 
+
+    // 以下是为同一个类型的多种变种注册到多个不同的handler
     register(Reader.class, new ClobReaderTypeHandler());
     register(String.class, new StringTypeHandler());
     register(String.class, JdbcType.CHAR, new StringTypeHandler());
@@ -270,6 +276,8 @@ public final class TypeHandlerRegistry {
   }
 
   private <T> void register(Type javaType, TypeHandler<? extends T> typeHandler) {
+    // MappedJdbcTypes的注解的用法可参考测试类StringTrimmingTypeHandler
+    // (你可以重写类型处理器或创建你自己的类型处理器来处理不支持的或非标准的类型)
     MappedJdbcTypes mappedJdbcTypes = typeHandler.getClass().getAnnotation(MappedJdbcTypes.class);
     if (mappedJdbcTypes != null) {
       for (JdbcType handledJdbcType : mappedJdbcTypes.value()) {

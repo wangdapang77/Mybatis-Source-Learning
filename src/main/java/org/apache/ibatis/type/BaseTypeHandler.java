@@ -15,17 +15,18 @@
  */
 package org.apache.ibatis.type;
 
+import org.apache.ibatis.executor.result.ResultMapException;
+import org.apache.ibatis.session.Configuration;
+
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.ibatis.executor.result.ResultMapException;
-import org.apache.ibatis.session.Configuration;
-
 /**
  * @author Clinton Begin
  * @author Simone Tripodi
+ * 类型处理的基本类
  */
 public abstract class BaseTypeHandler<T> extends TypeReference<T> implements TypeHandler<T> {
 
@@ -37,11 +38,14 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
 
   @Override
   public void setParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException {
+    // 参数为null的时候
     if (parameter == null) {
+      // 如果没设置jdbcType，则抛出类型异常
       if (jdbcType == null) {
         throw new TypeException("JDBC requires that the JdbcType must be specified for all nullable parameters.");
       }
       try {
+        // 设置为null
         ps.setNull(i, jdbcType.TYPE_CODE);
       } catch (SQLException e) {
         throw new TypeException("Error setting null for parameter #" + i + " with JdbcType " + jdbcType + " . " +
@@ -49,6 +53,7 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
                 "Cause: " + e, e);
       }
     } else {
+      // 不是null的情况，交给各个子类去完成设置，setNonNullParameter是抽象方法
       try {
         setNonNullParameter(ps, i, parameter, jdbcType);
       } catch (Exception e) {
@@ -63,10 +68,12 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
   public T getResult(ResultSet rs, String columnName) throws SQLException {
     T result;
     try {
+      // 获取结果
       result = getNullableResult(rs, columnName);
     } catch (Exception e) {
       throw new ResultMapException("Error attempting to get column '" + columnName + "' from result set.  Cause: " + e, e);
     }
+    // 如果ResultSet为null则返回null
     if (rs.wasNull()) {
       return null;
     } else {
@@ -104,8 +111,10 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
     }
   }
 
+  // 非NULL情况，怎么设参数还得交给不同的子类完成
   public abstract void setNonNullParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException;
 
+  // 以下3个方法是取得可能为null的结果，具体交给子类完成
   public abstract T getNullableResult(ResultSet rs, String columnName) throws SQLException;
 
   public abstract T getNullableResult(ResultSet rs, int columnIndex) throws SQLException;

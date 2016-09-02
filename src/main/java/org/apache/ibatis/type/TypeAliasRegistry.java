@@ -15,33 +15,28 @@
  */
 package org.apache.ibatis.type;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.io.Resources;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.ResultSet;
+import java.util.*;
+
 /**
  * @author Clinton Begin
+ * 类型别名注册机
  */
 public class TypeAliasRegistry {
 
   private final Map<String, Class<?>> TYPE_ALIASES = new HashMap<String, Class<?>>();
 
   public TypeAliasRegistry() {
+
+    // 构造函数内注册系统内置类型的别名
     registerAlias("string", String.class);
 
+    // 基本包装类型
     registerAlias("byte", Byte.class);
     registerAlias("long", Long.class);
     registerAlias("short", Short.class);
@@ -51,6 +46,7 @@ public class TypeAliasRegistry {
     registerAlias("float", Float.class);
     registerAlias("boolean", Boolean.class);
 
+    // 基本数组包装类型
     registerAlias("byte[]", Byte[].class);
     registerAlias("long[]", Long[].class);
     registerAlias("short[]", Short[].class);
@@ -60,6 +56,7 @@ public class TypeAliasRegistry {
     registerAlias("float[]", Float[].class);
     registerAlias("boolean[]", Boolean[].class);
 
+    // 加下划线的为基本类型
     registerAlias("_byte", byte.class);
     registerAlias("_long", long.class);
     registerAlias("_short", short.class);
@@ -69,6 +66,7 @@ public class TypeAliasRegistry {
     registerAlias("_float", float.class);
     registerAlias("_boolean", boolean.class);
 
+    // 加下划线，为基本数组类型
     registerAlias("_byte[]", byte[].class);
     registerAlias("_long[]", long[].class);
     registerAlias("_short[]", short[].class);
@@ -78,18 +76,21 @@ public class TypeAliasRegistry {
     registerAlias("_float[]", float[].class);
     registerAlias("_boolean[]", boolean[].class);
 
+    // 日期数字型
     registerAlias("date", Date.class);
     registerAlias("decimal", BigDecimal.class);
     registerAlias("bigdecimal", BigDecimal.class);
     registerAlias("biginteger", BigInteger.class);
     registerAlias("object", Object.class);
 
+    // 数组日期数字型
     registerAlias("date[]", Date[].class);
     registerAlias("decimal[]", BigDecimal[].class);
     registerAlias("bigdecimal[]", BigDecimal[].class);
     registerAlias("biginteger[]", BigInteger[].class);
     registerAlias("object[]", Object[].class);
 
+    // 集合型
     registerAlias("map", Map.class);
     registerAlias("hashmap", HashMap.class);
     registerAlias("list", List.class);
@@ -97,22 +98,28 @@ public class TypeAliasRegistry {
     registerAlias("collection", Collection.class);
     registerAlias("iterator", Iterator.class);
 
+    // ResultSet型
     registerAlias("ResultSet", ResultSet.class);
   }
 
   @SuppressWarnings("unchecked")
   // throws class cast exception as well if types cannot be assigned
+  // 解析类型别名
   public <T> Class<T> resolveAlias(String string) {
     try {
       if (string == null) {
         return null;
       }
       // issue #748
+      // 转小写再进行解析
+      // https://code.google.com/p/mybatis/issues【存在bug，如果本地语言是Turkish，那i转成大写就不是I了，而是另外一个字符（İ）。这样土耳其的机器就用不了mybatis了！】
       String key = string.toLowerCase(Locale.ENGLISH);
       Class<T> value;
+      // 判断hashmap中是否包含key，如存在，则返回key对应的class
       if (TYPE_ALIASES.containsKey(key)) {
         value = (Class<T>) TYPE_ALIASES.get(key);
       } else {
+        // 若无法找到，则将String直接转成class
         value = (Class<T>) Resources.classForName(string);
       }
       return value;

@@ -22,11 +22,14 @@ import java.sql.SQLException;
 
 /**
  * @author Clinton Begin
+ * TypeHandler有两个功能，一个是完成javaType至jdbcType的转换，另外一个是完成jdbcType至javaType的转换
  */
 public interface TypeHandler<T> {
 
+  // javaType to JdbcType
   void setParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException;
 
+  // JdbcType to javaType
   T getResult(ResultSet rs, String columnName) throws SQLException;
 
   T getResult(ResultSet rs, int columnIndex) throws SQLException;
