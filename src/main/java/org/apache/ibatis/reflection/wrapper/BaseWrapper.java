@@ -15,15 +15,17 @@
  */
 package org.apache.ibatis.reflection.wrapper;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.ReflectionException;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Clinton Begin
+ * 对象包装器基类
+ *
  */
 public abstract class BaseWrapper implements ObjectWrapper {
 
@@ -34,6 +36,7 @@ public abstract class BaseWrapper implements ObjectWrapper {
     this.metaObject = metaObject;
   }
 
+  // 解析集合
   protected Object resolveCollection(PropertyTokenizer prop, Object object) {
     if ("".equals(prop.getName())) {
       return object;
@@ -42,12 +45,15 @@ public abstract class BaseWrapper implements ObjectWrapper {
     }
   }
 
+  // 取集合内的值
   protected Object getCollectionValue(PropertyTokenizer prop, Object collection) {
     if (collection instanceof Map) {
+      // map['name']
       return ((Map) collection).get(prop.getIndex());
     } else {
       int i = Integer.parseInt(prop.getIndex());
       if (collection instanceof List) {
+        //list[0]
         return ((List) collection).get(i);
       } else if (collection instanceof Object[]) {
         return ((Object[]) collection)[i];
@@ -73,6 +79,7 @@ public abstract class BaseWrapper implements ObjectWrapper {
     }
   }
 
+  // 设集合的值
   protected void setCollectionValue(PropertyTokenizer prop, Object collection, Object value) {
     if (collection instanceof Map) {
       ((Map) collection).put(prop.getIndex(), value);

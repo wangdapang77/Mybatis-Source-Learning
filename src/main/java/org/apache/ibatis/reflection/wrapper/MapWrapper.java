@@ -15,20 +15,22 @@
  */
 package org.apache.ibatis.reflection.wrapper;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Clinton Begin
+ * Map包装器
  */
 public class MapWrapper extends BaseWrapper {
 
+  // 原来的对象
   private Map<String, Object> map;
 
   public MapWrapper(MetaObject metaObject, Map<String, Object> map) {

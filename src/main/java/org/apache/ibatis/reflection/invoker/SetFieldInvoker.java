@@ -20,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author Clinton Begin
+ * 获取字段set调用，调用的方法实现
  */
 public class SetFieldInvoker implements Invoker {
   private Field field;
@@ -28,6 +29,7 @@ public class SetFieldInvoker implements Invoker {
     this.field = field;
   }
 
+  // 调用Field.set
   @Override
   public Object invoke(Object target, Object[] args) throws IllegalAccessException, InvocationTargetException {
     field.set(target, args[0]);

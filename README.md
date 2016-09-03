@@ -49,6 +49,7 @@ org.apache.ibatis.reflection.wrapper
 
 可以参考MetaObjectTest来跟踪调试，基本上用到了reflection包下所有的类
 
+java反射理解参考此博文：http://www.cnblogs.com/gulvzhe/archive/2012/01/27/2330001.html
 
 4.基础层-exceptions(异常)
 -------------------------

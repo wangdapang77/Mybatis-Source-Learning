@@ -15,23 +15,15 @@
  */
 package org.apache.ibatis.reflection.factory;
 
+import org.apache.ibatis.reflection.ReflectionException;
+
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import org.apache.ibatis.reflection.ReflectionException;
+import java.util.*;
 
 /**
  * @author Clinton Begin
+ * 默认的对象工厂，对象工厂的方法实现，对象都是通过工厂生产
  */
 public class DefaultObjectFactory implements ObjectFactory, Serializable {
 
@@ -45,32 +37,41 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
   @SuppressWarnings("unchecked")
   @Override
   public <T> T create(Class<T> type, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
+    // 根据接口创建具体的类
     Class<?> classToCreate = resolveInterface(type);
     // we know types are assignable
+    // 实例化这个创建的类
     return (T) instantiateClass(classToCreate, constructorArgTypes, constructorArgs);
   }
 
   @Override
   public void setProperties(Properties properties) {
     // no props for default
+    // 没有默认的属性
   }
 
+  // 实例化类具体的方法实现
   <T> T instantiateClass(Class<T> type, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
     try {
       Constructor<T> constructor;
+      // 如果传入的constructor为null
       if (constructorArgTypes == null || constructorArgs == null) {
         constructor = type.getDeclaredConstructor();
         if (!constructor.isAccessible()) {
           constructor.setAccessible(true);
         }
+        // 实例化的关键步骤
         return constructor.newInstance();
       }
+      // 当传入constructor，调用传入的构造函数，
       constructor = type.getDeclaredConstructor(constructorArgTypes.toArray(new Class[constructorArgTypes.size()]));
       if (!constructor.isAccessible()) {
         constructor.setAccessible(true);
       }
+      // 调用传入构造函数实例化的关键步骤
       return constructor.newInstance(constructorArgs.toArray(new Object[constructorArgs.size()]));
     } catch (Exception e) {
+      // 出错后对调整异常，抛出反射异常
       StringBuilder argTypes = new StringBuilder();
       if (constructorArgTypes != null && !constructorArgTypes.isEmpty()) {
         for (Class<?> argType : constructorArgTypes) {
@@ -91,17 +92,23 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
     }
   }
 
+  // 解析接口，将interface转为实际class
   protected Class<?> resolveInterface(Class<?> type) {
     Class<?> classToCreate;
     if (type == List.class || type == Collection.class || type == Iterable.class) {
+      //List|Collection|Iterable转ArrayList
       classToCreate = ArrayList.class;
     } else if (type == Map.class) {
+      //Map转HashMap
       classToCreate = HashMap.class;
     } else if (type == SortedSet.class) { // issue #510 Collections Support
+      // SortedSet转TreeSet
       classToCreate = TreeSet.class;
     } else if (type == Set.class) {
+      // Set转HashSet
       classToCreate = HashSet.class;
     } else {
+      // 其他转传入类型
       classToCreate = type;
     }
     return classToCreate;
@@ -109,6 +116,7 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
 
   @Override
   public <T> boolean isCollection(Class<T> type) {
+    // 判断是否为Collection中的子类
     return Collection.class.isAssignableFrom(type);
   }
 

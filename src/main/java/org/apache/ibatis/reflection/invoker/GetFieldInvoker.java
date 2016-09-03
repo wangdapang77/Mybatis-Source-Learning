@@ -20,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author Clinton Begin
+ * 获取字段get调用，调用的方法实现
  */
 public class GetFieldInvoker implements Invoker {
   private Field field;
@@ -28,6 +29,7 @@ public class GetFieldInvoker implements Invoker {
     this.field = field;
   }
 
+  // 调用Field.get
   @Override
   public Object invoke(Object target, Object[] args) throws IllegalAccessException, InvocationTargetException {
     return field.get(target);

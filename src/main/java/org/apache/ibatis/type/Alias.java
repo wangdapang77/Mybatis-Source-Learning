@@ -24,8 +24,8 @@ import java.lang.annotation.Target;
 /**
  * @author Clinton Begin
  * 别名：
- * 1.xml形式
- * 2.annotation形式
+ * 1.xml形式          xml
+ * 2.annotation形式   注解
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

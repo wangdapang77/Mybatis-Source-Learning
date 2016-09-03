@@ -19,6 +19,7 @@ import java.lang.reflect.Field;
 
 /**
  * @author Clinton Begin
+ * 属性复制器
  */
 public final class PropertyCopier {
 
@@ -26,9 +27,11 @@ public final class PropertyCopier {
     // Prevent Instantiation of Static Class
   }
 
+  // 复制属性，如apache commons beanutil的BeanUtils.copyProperties、Spring的BeanUtils.copyProperties
   public static void copyBeanProperties(Class<?> type, Object sourceBean, Object destinationBean) {
     Class<?> parent = type;
     while (parent != null) {
+      // 循环将父类的属性都复制出来
       final Field[] fields = parent.getDeclaredFields();
       for(Field field : fields) {
         try {

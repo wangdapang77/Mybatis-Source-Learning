@@ -15,41 +15,55 @@
  */
 package org.apache.ibatis.reflection.wrapper;
 
-import java.util.List;
-
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
+import java.util.List;
+
 /**
  * @author Clinton Begin
+ * 对象包装器接口
  */
 public interface ObjectWrapper {
 
+  // get
   Object get(PropertyTokenizer prop);
 
+  // set
   void set(PropertyTokenizer prop, Object value);
 
+  // 查找属性
   String findProperty(String name, boolean useCamelCaseMapping);
 
+  // 获取getter名字列表
   String[] getGetterNames();
 
+  // 获取setter名字列表
   String[] getSetterNames();
 
+  // 获取setter类型
   Class<?> getSetterType(String name);
 
+  // 获取getter类型
   Class<?> getGetterType(String name);
 
+  // 判断是否有指定的setter
   boolean hasSetter(String name);
 
+  // 判断是否有指定的getter
   boolean hasGetter(String name);
 
+  // 实例化属性
   MetaObject instantiatePropertyValue(String name, PropertyTokenizer prop, ObjectFactory objectFactory);
-  
+
+  // 判断是否是集合
   boolean isCollection();
-  
+
+  // 添加元素（属性）
   void add(Object element);
-  
+
+  // 添加list元素（属性）
   <E> void addAll(List<E> element);
 
 }

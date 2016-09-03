@@ -15,23 +15,21 @@
  */
 package org.apache.ibatis.reflection.wrapper;
 
-import java.util.List;
-
-import org.apache.ibatis.reflection.ExceptionUtil;
-import org.apache.ibatis.reflection.MetaClass;
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.reflection.ReflectionException;
-import org.apache.ibatis.reflection.SystemMetaObject;
+import org.apache.ibatis.reflection.*;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.invoker.Invoker;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
+import java.util.List;
+
 /**
  * @author Clinton Begin
+ * Bean包装器，继承对象的基类
  */
 public class BeanWrapper extends BaseWrapper {
-
+  // 原来的对象
   private Object object;
+  // 原类
   private MetaClass metaClass;
 
   public BeanWrapper(MetaObject metaObject, Object object) {
@@ -42,10 +40,13 @@ public class BeanWrapper extends BaseWrapper {
 
   @Override
   public Object get(PropertyTokenizer prop) {
+    // 如果有index，说明是集合
+    // 调用BaseWrapper.resolveCollection 和 getCollectionValue解析集合
     if (prop.getIndex() != null) {
       Object collection = resolveCollection(prop, object);
       return getCollectionValue(prop, collection);
     } else {
+      // 调用获取对象属性
       return getBeanProperty(prop, object);
     }
   }

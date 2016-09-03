@@ -19,12 +19,14 @@ import java.util.Iterator;
 
 /**
  * @author Clinton Begin
+ * 属性分解为标记
+ * student[0].name.surnname,将被分解为：student[0]、name、surnname
  */
 public class PropertyTokenizer implements Iterable<PropertyTokenizer>, Iterator<PropertyTokenizer> {
-  private String name;
-  private String indexedName;
-  private String index;
-  private String children;
+  private String name;            // student
+  private String indexedName;     // student[0]
+  private String index;           // 0
+  private String children;        // name.surnname
 
   public PropertyTokenizer(String fullname) {
     int delim = fullname.indexOf('.');
@@ -36,6 +38,7 @@ public class PropertyTokenizer implements Iterable<PropertyTokenizer>, Iterator<
       children = null;
     }
     indexedName = name;
+    // 解析中括号内的数字
     delim = name.indexOf('[');
     if (delim > -1) {
       index = name.substring(delim + 1, name.length() - 1);
