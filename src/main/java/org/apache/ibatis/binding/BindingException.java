@@ -19,6 +19,10 @@ import org.apache.ibatis.exceptions.PersistenceException;
 
 /**
  * @author Clinton Begin
+ * 绑定异常
+ * Map中找不到对应的key会抛出此异常
+ * 重复添加映射时抛出此异常
+ * 绑定Mapper中某个方法出错抛出此异常
  */
 public class BindingException extends PersistenceException {
 

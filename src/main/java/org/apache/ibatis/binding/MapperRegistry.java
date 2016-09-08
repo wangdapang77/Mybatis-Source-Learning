@@ -30,16 +30,21 @@ import java.util.Set;
  * @author Clinton Begin
  * @author Eduardo Macarron
  * @author Lasse Voss
+ * 映射器注册机
  */
 public class MapperRegistry {
 
+  // 配置项
   private final Configuration config;
+  // 将已经添加的映射都放入HashMap中
   private final Map<Class<?>, MapperProxyFactory<?>> knownMappers = new HashMap<Class<?>, MapperProxyFactory<?>>();
 
+  // 构造函数，传入配置项
   public MapperRegistry(Configuration config) {
     this.config = config;
   }
 
+  // 返回代理类
   @SuppressWarnings("unchecked")
   public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
     final MapperProxyFactory<T> mapperProxyFactory = (MapperProxyFactory<T>) knownMappers.get(type);
@@ -57,13 +62,17 @@ public class MapperRegistry {
     return knownMappers.containsKey(type);
   }
 
+  // 添加Mapper的方式
   public <T> void addMapper(Class<T> type) {
+    // Mapper必须是接口
     if (type.isInterface()) {
+      // 是否存在type的Mapper，如为重复添加则抛出异常
       if (hasMapper(type)) {
         throw new BindingException("Type " + type + " is already known to the MapperRegistry.");
       }
       boolean loadCompleted = false;
       try {
+        // 添加新的代理映射
         knownMappers.put(type, new MapperProxyFactory<T>(type));
         // It's important that the type is added before the parser is run
         // otherwise the binding may automatically be attempted by the
@@ -72,6 +81,7 @@ public class MapperRegistry {
         parser.parse();
         loadCompleted = true;
       } finally {
+        // 如果装载不成功，则会将mapper从mybatis中删除
         if (!loadCompleted) {
           knownMappers.remove(type);
         }
@@ -88,6 +98,7 @@ public class MapperRegistry {
 
   /**
    * @since 3.2.2
+   * 3.2.2后添加的新方法 传入包名和类型
    */
   public void addMappers(String packageName, Class<?> superType) {
     ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<Class<?>>();
